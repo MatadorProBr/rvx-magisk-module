@@ -22,7 +22,7 @@ version = "auto"                                          # 'auto', 'latest' or 
 exclusive-patches = false                                 # exclude all patches by default. default: false
 microg-patch = "microg-support"                           # name of the microg-patch if exists for the app. default: "" (empty)
 apkmirror-dlurl = "https://www.apkmirror.com/apk/inc/app" # download url for the app. if not set, uptodown is used but its support is lacking.
-module-prop-name = "ytrv-magisk"                          # explicit magisk module prop name. not explicitly needed to be set.
+module-prop-name = "ytrvx-magisk"                         # explicit magisk module prop name. not explicitly needed to be set.
 merge-integrations = true                                 # whether to merge revanced integrations. default: false
 apkmirror-regex = 'APK</span>[^@]*@\([^#]*\)'             # regex used to get the dl url in apkmirror. default: APK</span>[^@]*@\([^#]*\)
                                                           # this default gets the url to the non-bundle apk
