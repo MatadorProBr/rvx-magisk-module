@@ -1,8 +1,9 @@
 name: CI
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 */6 * * *"
+# remove the "#" under this message if you want to check for new revanced extended updates every 6 hours or the time you choose
+#  schedule:
+#    - cron: "0 */6 * * *"
 
 jobs:
   check:
