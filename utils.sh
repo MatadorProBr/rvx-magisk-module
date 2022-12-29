@@ -77,13 +77,13 @@ abort() { echo "abort: $1" && exit 1; }
 
 set_prebuilts() {
 	[ -d "$TEMP_DIR" ] || abort "${TEMP_DIR} directory could not be found"
-	RVX_CLI_JAR=$(find "$TEMP_DIR" -maxdepth 1 -name "revanced-cli-*" | tail -n1)
+	RVX_CLI_JAR=$(find "$TEMP_DIR" -maxdepth 1 -name "revanced-cli-*.jar" | tail -n1)
 	[ -z "$RVX_CLI_JAR" ] && abort "ReVanced CLI not found"
 	log "CLI: ${RVX_CLI_JAR#"$TEMP_DIR/"}"
-	RVX_INTEGRATIONS_APK=$(find "$TEMP_DIR" -maxdepth 1 -name "app-release-unsigned-*" | tail -n1)
+	RVX_INTEGRATIONS_APK=$(find "$TEMP_DIR" -maxdepth 1 -name "app-release-unsigned-*.apk" | tail -n1)
 	[ -z "$RVX_CLI_JAR" ] && abort "ReVanced Integrations not found"
 	log "Integrations: ${RVX_INTEGRATIONS_APK#"$TEMP_DIR/"}"
-	RVX_PATCHES_JAR=$(find "$TEMP_DIR" -maxdepth 1 -name "revanced-patches-*" | tail -n1)
+	RVX_PATCHES_JAR=$(find "$TEMP_DIR" -maxdepth 1 -name "revanced-patches-*.jar" | tail -n1)
 	[ -z "$RVX_CLI_JAR" ] && abort "ReVanced Patches not found"
 	log "Patches: ${RVX_PATCHES_JAR#"$TEMP_DIR/"}"
 }
@@ -235,10 +235,15 @@ build_rvx() {
 			fi
 		fi
 		if [ $get_latest_ver = true ]; then
+			local apkmvers uptwodvers
 			if [ "$dl_from" = apkmirror ]; then
-				version=$(get_apkmirror_vers "${args[apkmirror_dlurl]##*/}" "${args[allow_alpha_version]}" | get_largest_ver)
+				apkmvers=$(get_apkmirror_vers "${args[apkmirror_dlurl]##*/}" "${args[allow_alpha_version]}")
+				version=$(echo "$apkmvers" | get_largest_ver)
+				[ "$version" ] || version=$(echo "$apkmvers" | head -1)
 			elif [ "$dl_from" = uptodown ]; then
-				version=$(get_uptodown_vers "$uptwod_resp" | get_largest_ver)
+				uptwodvers=$(get_uptodown_vers "$uptwod_resp")
+				version=$(echo "$uptwodvers" | get_largest_ver)
+				[ "$version" ] || version=$(echo "$uptwodvers" | head -1)
 			fi
 		fi
 		if [ -z "$version" ]; then
@@ -295,7 +300,6 @@ build_rvx() {
 
 		uninstall_sh "$pkg_name" "$base_template"
 		service_sh "$pkg_name" "$version" "$base_template"
-		postfsdata_sh "$pkg_name" "$base_template"
 		customize_sh "$pkg_name" "$version" "$base_template"
 
 		local upj
@@ -319,7 +323,6 @@ join_args() {
 	echo "$1" | tr -d '\t\r' | tr ' ' '\n' | grep -v '^$' | sed "s/^/${2} /" | paste -sd " " - || echo ""
 }
 
-postfsdata_sh() { echo "${POSTFSDATA_SH//__PKGNAME/$1}" >"${2}/post-fs-data.sh"; }
 uninstall_sh() { echo "${UNINSTALL_SH//__PKGNAME/$1}" >"${2}/uninstall.sh"; }
 customize_sh() {
 	local s="${CUSTOMIZE_SH//__PKGNAME/$1}"
