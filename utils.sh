@@ -6,7 +6,13 @@ MODULE_TEMPLATE_DIR="revanced-extended-magisk"
 MODULE_SCRIPTS_DIR="scripts"
 TEMP_DIR="temp"
 BUILD_DIR="build"
-PKGS_LIST="temp/module-pkgs"
+PKGS_LIST="${TEMP_DIR}/module-pkgs"
+
+if [ "${GITHUB_TOKEN+x}" ]; then
+	GH_AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
+else
+	GH_AUTH_HEADER=""
+fi
 
 GITHUB_REPOSITORY=${GITHUB_REPOSITORY:-$"MatadorProBr/revanced-extended-magisk-module"}
 NEXT_VER_CODE=${NEXT_VER_CODE:-$(date +'%Y%m%d')}
@@ -45,17 +51,17 @@ read_main_config() {
 
 get_prebuilts() {
 	echo "Getting prebuilts"
-	RVX_CLI_URL=$(req https://api.github.com/repos/inotia00/revanced-cli/releases/latest - | json_get 'browser_download_url')
+	RVX_CLI_URL=$(gh_req https://api.github.com/repos/inotia00/revanced-cli/releases/latest - | json_get 'browser_download_url')
 	RVX_CLI_JAR="${TEMP_DIR}/${RVX_CLI_URL##*/}"
 	log "CLI: ${RVX_CLI_URL##*/}"
 
-	RVX_INTEGRATIONS_URL=$(req https://api.github.com/repos/inotia00/revanced-integrations/releases/latest - | json_get 'browser_download_url')
+	RVX_INTEGRATIONS_URL=$(gh_req https://api.github.com/repos/inotia00/revanced-integrations/releases/latest - | json_get 'browser_download_url')
 	RVX_INTEGRATIONS_APK=${RVX_INTEGRATIONS_URL##*/}
 	RVX_INTEGRATIONS_APK="${RVX_INTEGRATIONS_APK%.apk}-$(cut -d/ -f8 <<<"$RVX_INTEGRATIONS_URL").apk"
 	log "Integrations: $RVX_INTEGRATIONS_APK"
 	RVX_INTEGRATIONS_APK="${TEMP_DIR}/${RVX_INTEGRATIONS_APK}"
 
-	RVX_PATCHES=$(req https://api.github.com/repos/inotia00/revanced-patches/releases/latest -)
+	RVX_PATCHES=$(gh_req https://api.github.com/repos/inotia00/revanced-patches/releases/latest -)
 	RVX_PATCHES_CHANGELOG=$(echo "$RVX_PATCHES" | json_get 'body' | sed 's/\(\\n\)\+/\\n/g')
 	RVX_PATCHES_URL=$(echo "$RVX_PATCHES" | json_get 'browser_download_url' | grep 'jar')
 	RVX_PATCHES_JAR="${TEMP_DIR}/${RVX_PATCHES_URL##*/}"
@@ -88,6 +94,7 @@ set_prebuilts() {
 }
 
 req() { wget -nv -O "$2" --header="$WGET_HEADER" "$1"; }
+gh_req() { wget -nv -O "$2" --header="$GH_AUTH_HEADER" "$1"; }
 log() { echo -e "$1  " >>build.md; }
 get_largest_ver() {
 	local max=0

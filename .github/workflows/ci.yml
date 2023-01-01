@@ -1,9 +1,9 @@
 name: CI
 on:
   workflow_dispatch:
-# remove the "#" under this message if you want to check for new revanced extended updates every 6 hours or the time you choose
-#  schedule:
-#    - cron: "0 */6 * * *"
+# to completely disable the ci workflow, just add a # to the start of these 2 lines under this message
+  schedule:
+    - cron: "0 */6 * * *"
 
 jobs:
   check:
@@ -37,7 +37,7 @@ jobs:
           }
 
           is_patches_latest() {
-            declare -r last_patches_url=$(wget -nv -O- https://api.github.com/repos/inotia00/revanced-patches/releases/latest | json_get 'browser_download_url' | grep 'jar')
+            declare -r last_patches_url=$(wget -nv --header="Authorization: token ${{ secrets.GITHUB_TOKEN }}" -O- https://api.github.com/repos/inotia00/revanced-patches/releases/latest | json_get 'browser_download_url' | grep 'jar')
             declare -r last_patches=${last_patches_url##*/}
             cur_patches=$(sed -n 's/.*Patches: \(.*\)/\1/p' build.md | xargs)
 

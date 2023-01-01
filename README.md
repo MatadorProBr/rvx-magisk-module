@@ -21,7 +21,7 @@ The [**mindetach module**](https://github.com/j-hc/mindetach-magisk) in the rele
      * handle installation of the correct version of the stock app and all that
      * mount the patched app immediately without needing to reboot
 
-#### **Note that the [CI workflow](../../actions/workflows/ci.yml) is scheduled to build the modules and APKs every 6 hours using GitHub Actions if there is a change in ReVanced Extended patches. You may want to disable it.**
+#### **Note that the [CI workflow](../../actions/workflows/ci.yml) is scheduled to build the modules and APKs every 6 hours using GitHub Actions if there is a change in ReVanced Extended patches. [You may want to disable it](../../actions/workflows/ci.yml#L4).**
 
 ## To include/exclude patches
 [**See the list of patches**](https://github.com/inotia00/revanced-patches/tree/revanced-extended#-patches)
