@@ -46,7 +46,7 @@ read_main_config() {
 
 get_prebuilts() {
 	echo "Getting prebuilts"
-	RVX_CLI_URL=$(req https://api.github.com/repos/j-hc/revanced-cli/releases/latest - | json_get 'browser_download_url')
+	RVX_CLI_URL=$(req https://api.github.com/repos/inotia00/revanced-cli/releases/latest - | json_get 'browser_download_url')
 	RVX_CLI_JAR="${TEMP_DIR}/${RVX_CLI_URL##*/}"
 	log "CLI: ${RVX_CLI_URL##*/}"
 
