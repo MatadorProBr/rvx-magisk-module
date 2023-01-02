@@ -11,7 +11,7 @@ The [**mindetach module**](https://github.com/j-hc/mindetach-magisk) in the rele
 
 ## Features
  * Can build Magisk modules and non-root APKs
- * Updated every 6 hours with the latest versions of apps and patches in accordance with your configuration
+ * Updated every hour with the latest versions of apps and patches in accordance with your configuration
  * Cleans APKs from unneeded libs to make them smaller
  * Fully open-source, every binary or APK is compiled without human intervention
  * Modules
@@ -21,7 +21,7 @@ The [**mindetach module**](https://github.com/j-hc/mindetach-magisk) in the rele
      * handle installation of the correct version of the stock app and all that
      * mount the patched app immediately without needing to reboot
 
-#### **Note that the [CI workflow](../../actions/workflows/ci.yml) is scheduled to build the modules and APKs every 6 hours using GitHub Actions if there is a change in ReVanced Extended patches. [You may want to disable it](./.github/workflows/ci.yml#L4).**
+#### **Note that the [CI workflow](../../actions/workflows/ci.yml) is scheduled to build the modules and APKs every hour using GitHub Actions if there is a change in ReVanced Extended patches. [You may want to disable it](./.github/workflows/ci.yml#L4).**
 
 ## To include/exclude patches
 [**See the list of patches**](https://github.com/inotia00/revanced-patches/tree/revanced-extended#-patches)

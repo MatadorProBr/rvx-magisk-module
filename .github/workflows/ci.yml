@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 # to completely disable the ci workflow, just add a # to the start of these 2 lines under this message
   schedule:
-    - cron: "0 */6 * * *"
+    - cron: "0 * * * *"
 
 jobs:
   check:
