@@ -1,23 +1,29 @@
-CLI: revanced-cli-2.19.1-all.jar  
-Integrations: app-release-unsigned-v0.91.0.apk  
-Patches: revanced-patches-2.151.0.jar  
+CLI: revanced-cli-2.20.1-all.jar  
+Integrations: app-release-unsigned-v0.91.2.apk  
+Patches: revanced-patches-2.152.0.jar  
 
 YouTube
 ==
-- fix: some strings resources are wrong
-- fix: invalid speed value
-- fix: patch fails when `custom-video-speed patch` is excluded
-- fix: reboot dialog not showing when adding custom filter
-- fix: `copy with timestamp` button sometimes not copying correct timestamp
-- feat(youtube/general-ads-patch): hide channelbar join button
-- feat(youtube/general-ads-patch): hide channel member shelf
+- fix(youtube/return-youtube-dislike): use manufacturer specific span styles
+
+- disable `Enable Always Swipe Gesture` (temporarily) https://github.com/inotia00/ReVanced_Extended/issues/91
+- change default SponsorBlock mirror server https://github.com/inotia00/ReVanced_Extended/issues/93
 
 - crowdin translation update
 `Arabic`, `Chinese Simplified`, `Chinese Traditional`, `French`, `German`, `Greek`, `Hungarian`, `Indonesian`, `Italian`, `Japanese`, `Korean`, `Polish`, `Portuguese, Brazilian`, `Russian`, `Spanish`, `Turkish`, `Ukrainian`, `Vietnamese` 
 
+YouTube Music
+==
+- add: `enable-zen-mode` patch
+- add: `enable-force-shuffle` patch
+
+- rewrite settings resource
+- rewrite language resource
+- crowdin translation update
+
 ETC
 ==
-bump v2.151.0
+bump v2.152.0
 
 ※ Compatible ReVanced Manager: v0.0.51 / v0.0.52
   
