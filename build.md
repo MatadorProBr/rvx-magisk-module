@@ -20,10 +20,10 @@ ETC
 
   
 **App Versions:**  
-YouTube: 18.01.32  
+YouTube: 17.49.37  
 Music (arm-v7a): 5.36.51  
 Music (arm64-v8a): 5.36.51  
 
 Install [Vanced Extended Microg](https://github.com/inotia00/VancedMicroG/releases) or [Vanced Microg](https://github.com/TeamVanced/VancedMicroG/releases) to be able to use non-root YouTube or YouTube Music  
 
-[revanced-extended-magisk-module](https://github.com/MatadorProBr/revanced-extended-magisk-module)  
+[revanced-extended-magisk-module](https://github.com/MatadorProBr/revanced-extended-magisk-module)
