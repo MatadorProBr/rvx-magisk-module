@@ -24,7 +24,7 @@ rip-libs = true
 [YouTube-blue]
 enabled = true
 build-mode = "both"
-excluded-patches = "custom-branding-icon-afn-red"
+excluded-patches = "custom-branding-icon-afn-red custom-branding-name"
 included-patches = "custom-branding-icon-afn-blue materialyou force-premium-heading"
 version = "auto"
 exclusive-patches = false
@@ -37,7 +37,7 @@ rip-libs = true
 [YouTube-red]
 enabled = true
 build-mode = "both"
-excluded-patches = ""
+excluded-patches = "custom-branding-name"
 included-patches = "materialyou force-premium-heading"
 version = "auto"
 exclusive-patches = false
@@ -50,7 +50,7 @@ rip-libs = true
 [YouTube-revancify]
 enabled = true
 build-mode = "both"
-excluded-patches = "custom-branding-icon-afn-red"
+excluded-patches = "custom-branding-icon-afn-red custom-branding-name"
 included-patches = "custom-branding-icon-revancify materialyou force-premium-heading"
 version = "auto"
 exclusive-patches = false
