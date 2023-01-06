@@ -20,7 +20,7 @@ ETC
 
   
 **App Versions:**  
-YouTube: 17.49.37  
+YouTube: 18.01.32  
 Music (arm-v7a): 5.36.51  
 Music (arm64-v8a): 5.36.51  
 
