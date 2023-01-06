@@ -21,11 +21,74 @@ module-prop-name = "ytrvx-magisk"
 merge-integrations = true
 rip-libs = true
 
+[YouTube-blue]
+enabled = true
+build-mode = "both"
+excluded-patches = "custom-branding-icon-afn-red custom-branding-name"
+included-patches = "custom-branding-icon-afn-blue materialyou force-premium-heading"
+version = "auto"
+exclusive-patches = false
+microg-patch = "microg-support"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube/"
+module-prop-name = "ytrvx-magisk"
+merge-integrations = true
+rip-libs = true
+
+[YouTube-red]
+enabled = true
+build-mode = "both"
+excluded-patches = "custom-branding-name"
+included-patches = "materialyou force-premium-heading"
+version = "auto"
+exclusive-patches = false
+microg-patch = "microg-support"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube/"
+module-prop-name = "ytrvx-magisk"
+merge-integrations = true
+rip-libs = true
+
+[YouTube-revancify]
+enabled = true
+build-mode = "both"
+excluded-patches = "custom-branding-icon-afn-red custom-branding-name"
+included-patches = "custom-branding-icon-revancify materialyou force-premium-heading"
+version = "auto"
+exclusive-patches = false
+microg-patch = "microg-support"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube/"
+module-prop-name = "ytrvx-magisk"
+merge-integrations = true
+rip-libs = true
+
 [Music-arm64]
 build-mode = "both"
 app-name = "Music"
 excluded-patches = "custom-branding-music-red"
 included-patches = ""
+version = "auto"
+microg-patch = "music-microg-support"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
+module-prop-name = "ytmusicrvx-magisk"
+merge-integrations = true
+arch = "arm64-v8a"
+
+[Music-arm64-red]
+build-mode = "both"
+app-name = "Music-red"
+excluded-patches = ""
+included-patches = ""
+version = "auto"
+microg-patch = "music-microg-support"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
+module-prop-name = "ytmusicrvx-magisk"
+merge-integrations = true
+arch = "arm64-v8a"
+
+[Music-arm64-blue]
+build-mode = "both"
+app-name = "Music-blue"
+excluded-patches = "custom-branding-music-red"
+included-patches = "custom-branding-music-revancify"
 version = "auto"
 microg-patch = "music-microg-support"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
@@ -42,5 +105,29 @@ version = "auto"
 microg-patch = "music-microg-support"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
 module-prop-name = "ytmusicrvx-arm-magisk"
+merge-integrations = true
+arch = "arm-v7a"
+
+[Music-arm-red]
+build-mode = "both"
+app-name = "Music-red"
+excluded-patches = ""
+included-patches = ""
+version = "auto"
+microg-patch = "music-microg-support"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
+module-prop-name = "ytmusicrvx-magisk"
+merge-integrations = true
+arch = "arm-v7a"
+
+[Music-arm-blue]
+build-mode = "both"
+app-name = "Music-blue"
+excluded-patches = "custom-branding-music-red"
+included-patches = "custom-branding-music-revancify"
+version = "auto"
+microg-patch = "music-microg-support"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
+module-prop-name = "ytmusicrvx-magisk"
 merge-integrations = true
 arch = "arm-v7a"
