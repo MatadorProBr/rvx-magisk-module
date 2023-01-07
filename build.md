@@ -5,7 +5,7 @@ Patches: revanced-patches-2.152.6.jar
 YouTube
 ==
 - add `dislikes with separator` settings https://github.com/inotia00/ReVanced_Extended/issues/101
-- temporarily remove `hide suggestions` filters
+- temporarily remove `hide suggestions` settings (because of A/B test)
 
 - Crowdin Translation Update
 `Arabic`, `French`, `Hungarian`, `Indonesian`, `Russian`, `Spanish`, `Turkish`, `Vietnamese`
@@ -23,14 +23,14 @@ ETC
 
   
 **App Versions:**  
-YouTube-red: 17.49.37  
-YouTube: 17.49.37  
-YouTube-blue: 17.49.37  
-YouTube-revancify: 17.49.37  
+YouTube-red: 18.01.35  
+YouTube-blue: 18.01.35  
+YouTube: 18.01.35  
+YouTube-revancify: 18.01.35  
 Music-red (arm64-v8a): 5.38.53  
 Music (arm64-v8a): 5.38.53  
-Music (arm-v7a): 5.38.53  
 Music-blue (arm64-v8a): 5.38.53  
+Music (arm-v7a): 5.38.53  
 Music-red (arm-v7a): 5.38.53  
 Music-blue (arm-v7a): 5.38.53  
 
