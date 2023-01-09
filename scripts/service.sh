@@ -1,11 +1,11 @@
 #!/system/bin/sh
 # shellcheck disable=SC2086
 MODDIR=${0%/*}
-RVPATH=/data/adb/__PKGNAME_rvx.apk
+RVXPATH=/data/adb/__PKGNAME_rvx.apk
 until [ "$(getprop sys.boot_completed)" = 1 ]; do sleep 1; done
 until [ -d /sdcard ]; do sleep 1; done
 
-ln -f $MODDIR/base.apk $RVPATH
+ln $MODDIR/base.apk $RVXPATH
 BASEPATH=$(pm path __PKGNAME | grep base)
 BASEPATH=${BASEPATH#*:}
 if [ $BASEPATH ] && [ -d ${BASEPATH%base.apk}lib ]; then
@@ -15,8 +15,8 @@ if [ $BASEPATH ] && [ -d ${BASEPATH%base.apk}lib ]; then
 		        mountpoint=$(echo "$line" | cut -d' ' -f5)
 		        umount -l "${mountpoint%%\\*}"
 		done
-		chcon u:object_r:apk_data_file:s0 $RVPATH
-		mount -o bind $RVPATH $BASEPATH
+		chcon u:object_r:apk_data_file:s0 $RVXPATH
+		mount -o bind $RVXPATH $BASEPATH
 		am force-stop __PKGNAME
 	fi
 fi
