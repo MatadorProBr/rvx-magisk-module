@@ -11,6 +11,7 @@ The [**mindetach module**](https://github.com/j-hc/mindetach-magisk) in the rele
 
 ## Features
  * Can build Magisk modules and non-root APKs
+ * Support all present and future ReVanced Extended apps
  * Updated every hour with the latest versions of apps and patches in accordance with your configuration
  * Cleans APKs from unneeded libs to make them smaller
  * Fully open-source, every binary or APK is compiled without human intervention
@@ -32,7 +33,7 @@ The [**mindetach module**](https://github.com/j-hc/mindetach-magisk) in the rele
  * Run the build [workflow](../../actions/workflows/build.yml)
  * Grab your modules and APKs from [releases](../../releases)
 
-To get to know more about `config.toml`, read here [`CONFIG.md`](./CONFIG.md)
+To add more ReVanced Extended apps or get to know more about `config.toml`, read here [`CONFIG.md`](./CONFIG.md)
 
 To be able to use non-root variants of YT and YT Music, install [Vanced Extended MicroG](https://github.com/inotia00/VancedMicroG/releases) (recommended) or [Vanced MicroG](https://github.com/TeamVanced/VancedMicroG/releases).
 

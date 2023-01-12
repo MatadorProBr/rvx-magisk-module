@@ -19,7 +19,6 @@ microg-patch = "microg-support"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube/"
 module-prop-name = "ytrvx-magisk"
 merge-integrations = true
-rip-libs = true
 
 [YouTube-blue]
 enabled = false
