@@ -64,7 +64,7 @@ get_prebuilts() {
 }
 
 get_cmpr() {
-	mkdir -p revanced-magisk/bin/arm64 revanced-magisk/bin/arm
+	mkdir -p revanced-extended-magisk/bin/arm64 revanced-extended-magisk/bin/arm
 	dl_if_dne "${MODULE_TEMPLATE_DIR}/bin/arm64/cmpr" "https://github.com/j-hc/cmpr/releases/latest/download/cmpr-arm64-v8a"
 	dl_if_dne "${MODULE_TEMPLATE_DIR}/bin/arm/cmpr" "https://github.com/j-hc/cmpr/releases/latest/download/cmpr-armeabi-v7a"
 }
