@@ -1,7 +1,7 @@
+# to disable the ci workflow add a # on the start of the line below
 name: CI
 on:
   workflow_dispatch:
-# to disable the ci workflow add a # on the start of the line below
   schedule:
     - cron: "0 * * * *"
 

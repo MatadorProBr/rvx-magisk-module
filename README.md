@@ -37,8 +37,8 @@ To add more ReVanced Extended apps or get to know more about `config.toml`, read
 
 To be able to use non-root variants of YT and YT Music, install [Vanced Extended MicroG](https://github.com/inotia00/VancedMicroG/releases) (recommended) or [Vanced MicroG](https://github.com/TeamVanced/VancedMicroG/releases).
 
-## Updating the repository
-If you want to receive automatic updates when this repository updates, you can enable the [Sync with Upstream workflow](../../actions/workflows/sync_upstream.yml).
+## Sync the repository (only applies to forks)
+If you want to sync your fork automatic when the repository updates, you can enable the [Sync with Upstream workflow](/.github/workflows/sync_upstream.yml).
 
 # Building Locally
 Make sure you have JDK 17 installed. Then run:

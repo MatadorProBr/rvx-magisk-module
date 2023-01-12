@@ -1,8 +1,9 @@
 # https://github.com/revanced-apks/build-apps/blob/main/.github/workflows/merge_upstream.yml
+
 # to enable the workflow remove the # on the line below
-name: Sync with Upstream
+# name: Sync with Upstream
 on: 
-#  schedule:
+  schedule:
     - cron: '0 */12 * * *'
   workflow_dispatch:
 
