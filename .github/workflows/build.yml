@@ -12,7 +12,7 @@ jobs:
           java-version: "17"
 
       - name: Checkout
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v3.3.0
         with:
           fetch-depth: 0
           submodules: true
@@ -49,7 +49,7 @@ jobs:
           fi
 
       - name: Upload modules to release
-        uses: svenstaro/upload-release-action@2.3.0
+        uses: svenstaro/upload-release-action@2.4.0
         with:
           body: ${{ steps.get_output.outputs.BUILD_LOG }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}

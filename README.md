@@ -18,7 +18,7 @@ The [**mindetach module**](https://github.com/j-hc/mindetach-magisk) in the rele
  * Modules
      * recompile invalidated odex for YouTube and Music apps for faster usage
      * receive updates from Magisk app
-     * do not break safetynet or trigger root detections used by certain apps
+     * do not break SafetyNet or trigger root detections used by certain apps
      * handle installation of the correct version of the stock app and all that
      * mount the patched app immediately without needing to reboot
 
@@ -36,6 +36,9 @@ The [**mindetach module**](https://github.com/j-hc/mindetach-magisk) in the rele
 To add more ReVanced Extended apps or get to know more about `config.toml`, read here [`CONFIG.md`](./CONFIG.md)
 
 To be able to use non-root variants of YT and YT Music, install [Vanced Extended MicroG](https://github.com/inotia00/VancedMicroG/releases) (recommended) or [Vanced MicroG](https://github.com/TeamVanced/VancedMicroG/releases).
+
+## Updating the repository
+If you want to receive automatic updates when this repository updates, you can enable the [Sync with Upstream workflow](../../actions/workflows/sync_upstream.yml).
 
 # Building Locally
 Make sure you have JDK 17 installed. Then run:

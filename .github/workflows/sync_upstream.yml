@@ -1,0 +1,17 @@
+# https://github.com/revanced-apks/build-apps/blob/main/.github/workflows/merge_upstream.yml
+# to enable the workflow remove the # on the line below
+name: Sync with Upstream
+on: 
+#  schedule:
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+
+jobs:
+  merge-upstream:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.3.0
+      - name: Sync Repo
+        run: gh repo sync ${{ github.repository }} -b main
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
