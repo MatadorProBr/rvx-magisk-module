@@ -97,7 +97,7 @@ get_largest_ver() {
 }
 get_patch_last_supported_ver() {
 	local vs
-	vs=$(unzip -p "$RV_PATCHES_JAR" | strings -s , | sed -rn "s/.*${1},versions,(([0-9.]*,*)*),Lk.*/\1/p" | tr ',' '\n')
+	vs=$(unzip -p "$RVX_PATCHES_JAR" | strings -s , | sed -rn "s/.*${1},versions,(([0-9.]*,*)*),Lk.*/\1/p" | tr ',' '\n')
 	printf "%s\n" "$vs" | get_largest_ver
 }
 semver_cmp() {
