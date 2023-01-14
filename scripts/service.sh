@@ -4,6 +4,7 @@ MODDIR=${0%/*}
 RVXPATH=/data/adb/__PKGNAME_rvx.apk
 until [ "$(getprop sys.boot_completed)" = 1 ]; do sleep 1; done
 until [ -d /sdcard ]; do sleep 1; done
+sleep 5
 
 ln $MODDIR/base.apk $RVXPATH
 BASEPATH=$(pm path __PKGNAME | grep base)
