@@ -53,16 +53,16 @@ get_prebuilts() {
 	rvx_patches=$(gh_req https://api.github.com/repos/inotia00/revanced-patches/releases/latest -)
 	rvx_patches_changelog=$(echo "$rvx_patches" | json_get 'body' | sed 's/\(\\n\)\+/\\n/g')
 	rvx_patches_dl=$(json_get 'browser_download_url' <<<"$rvx_patches")
-	RVX_PATCHES_JSON="${TEMP_DIR}/patches-$(json_get 'tag_name' <<<"$rv_patches").json"
+	RVX_PATCHES_JSON="${TEMP_DIR}/patches-$(json_get 'tag_name' <<<"$rvx_patches").json"
 	rvx_patches_url=$(grep 'jar' <<<"$rvx_patches_dl")
 	RVX_PATCHES_JAR="${TEMP_DIR}/${rvx_patches_url##*/}"
-	log "Patches: ${rv_patches_url##*/}"
-	log "\n${rv_patches_changelog//# [/### [}\n"
+	log "Patches: ${rvx_patches_url##*/}"
+	log "\n${rvx_patches_changelog//# [/### [}\n"
 
-	dl_if_dne "$RV_CLI_JAR" "$rv_cli_url"
-	dl_if_dne "$RV_INTEGRATIONS_APK" "$rv_integrations_url"
-	dl_if_dne "$RV_PATCHES_JAR" "$rv_patches_url"
-	dl_if_dne "$RV_PATCHES_JSON" "$(grep 'json' <<<"$rv_patches_dl")"
+	dl_if_dne "$RVX_CLI_JAR" "$rvx_cli_url"
+	dl_if_dne "$RVX_INTEGRATIONS_APK" "$rvx_integrations_url"
+	dl_if_dne "$RVX_PATCHES_JAR" "$rvx_patches_url"
+	dl_if_dne "$RVX_PATCHES_JSON" "$(grep 'json' <<<"$rv_patches_dl")"
 }
 
 get_cmpr() {
