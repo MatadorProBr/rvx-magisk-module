@@ -100,7 +100,7 @@ get_largest_ver() {
 	echo "$max"
 }
 get_patch_last_supported_ver() {
-	jq ".[] | select(.compatiblePackages[].name==\"${1}\") | .compatiblePackages[].versions" "$RV_PATCHES_JSON" | tr -d ' ,\t[]"' | sort -u | grep -v '^$' | get_largest_ver || :
+	jq ".[] | select(.compatiblePackages[].name==\"${1}\") | .compatiblePackages[].versions" "$RVX_PATCHES_JSON" | tr -d ' ,\t[]"' | sort -u | grep -v '^$' | get_largest_ver || :
 }
 semver_cmp() {
 	IFS=. read -r -a v1 <<<"${1//[^.0-9]/}"
