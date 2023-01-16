@@ -31,12 +31,9 @@ exclusive-patches = false                                  # exclude all patches
 microg-patch = "microg-support"                            # name of the microg-patch if exists for the app. default: "" (empty)
 apkmirror-dlurl = "https://www.apkmirror.com/apk/inc/app"  # download url. if not set, uptodown dl url is used.
 uptodown-dlurl = "https://spotify.en.uptodown.com/android" # uptodown url. if not set, apkmirror dl url is used. apkmirror is prioritized
-module-prop-name = "ytrvx-magisk"                          # explicit magisk module prop name. not explicitly needed to be set.
+module-prop-name = "ytrvx-magisk"                           # explicit magisk module prop name. not explicitly needed to be set.
 merge-integrations = true                                  # whether to merge revanced integrations. default: false
 arch = "arm64-v8a"                                         # 'arm64-v8a', 'arm-v7a' or 'all'. 
 # this option is sometimes needed to be able to download the apks from apkmirror. default: all
 # and does not affect anything else
-
-apkmirror-regex = 'APK</span>[^@]*@\([^#]*\)' # regex used to get the dl url in apkmirror. default: APK</span>[^@]*@\([^#]*\)
-# this default gets the url to the non-bundle apk.
 ```

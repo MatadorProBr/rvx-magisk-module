@@ -11,7 +11,6 @@ if [ "${GITHUB_TOKEN+x}" ]; then
 else
 	GH_AUTH_HEADER=""
 fi
-
 GITHUB_REPOSITORY=${GITHUB_REPOSITORY:-"MatadorProBr/revanced-extended-magisk-module"}
 NEXT_VER_CODE=${NEXT_VER_CODE:-$(date +'%Y%m%d')}
 WGET_HEADER="User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0"
@@ -42,25 +41,28 @@ toml_get() {
 
 get_prebuilts() {
 	echo "Getting prebuilts"
-	RVX_CLI_URL=$(gh_req https://api.github.com/repos/inotia00/revanced-cli/releases/latest - | json_get 'browser_download_url')
-	RVX_CLI_JAR="${TEMP_DIR}/${RVX_CLI_URL##*/}"
-	log "CLI: ${RVX_CLI_URL##*/}"
+	local rvx_cli_url rvx_integrations_url rvx_patches rvx_patches_changelog rvx_patches_dl rvx_patches_url
+	rvx_cli_url=$(gh_req https://api.github.com/repos/j-hc/revanced-cli/releases/latest - | json_get 'browser_download_url')
+	RVX_CLI_JAR="${TEMP_DIR}/${rvx_cli_url##*/}"
+	log "CLI: ${rvx_cli_url##*/}"
 
-	RVX_INTEGRATIONS_URL=$(gh_req https://api.github.com/repos/inotia00/revanced-integrations/releases/latest - | json_get 'browser_download_url')
-	RVX_INTEGRATIONS_APK=${RVX_INTEGRATIONS_URL##*/}
-	log "Integrations: $RVX_INTEGRATIONS_APK"
-	RVX_INTEGRATIONS_APK="${TEMP_DIR}/${RVX_INTEGRATIONS_APK}"
+	rvx_integrations_url=$(gh_req https://api.github.com/repos/inotia00/revanced-integrations/releases/latest - | json_get 'browser_download_url')
+	RVX_INTEGRATIONS_APK="${TEMP_DIR}/${rvx_integrations_url##*/}"
+	log "Integrations: ${rvx_integrations_url##*/}"
 
-	RVX_PATCHES=$(gh_req https://api.github.com/repos/inotia00/revanced-patches/releases/latest -)
-	RVX_PATCHES_CHANGELOG=$(echo "$RVX_PATCHES" | json_get 'body' | sed 's/\(\\n\)\+/\\n/g')
-	RVX_PATCHES_URL=$(echo "$RVX_PATCHES" | json_get 'browser_download_url' | grep 'jar')
-	RVX_PATCHES_JAR="${TEMP_DIR}/${RVX_PATCHES_URL##*/}"
-	log "Patches: ${RVX_PATCHES_URL##*/}"
-	log "\n${RVX_PATCHES_CHANGELOG//# [/### [}\n"
+	rvx_patches=$(gh_req https://api.github.com/repos/inotia00/revanced-patches/releases/latest -)
+	rvx_patches_changelog=$(echo "$rvx_patches" | json_get 'body' | sed 's/\(\\n\)\+/\\n/g')
+	rvx_patches_dl=$(json_get 'browser_download_url' <<<"$rvx_patches")
+	RVX_PATCHES_JSON="${TEMP_DIR}/patches-$(json_get 'tag_name' <<<"$rv_patches").json"
+	rvx_patches_url=$(grep 'jar' <<<"$rvx_patches_dl")
+	RVX_PATCHES_JAR="${TEMP_DIR}/${rvx_patches_url##*/}"
+	log "Patches: ${rv_patches_url##*/}"
+	log "\n${rv_patches_changelog//# [/### [}\n"
 
-	dl_if_dne "$RVX_CLI_JAR" "$RVX_CLI_URL"
-	dl_if_dne "$RVX_INTEGRATIONS_APK" "$RVX_INTEGRATIONS_URL"
-	dl_if_dne "$RVX_PATCHES_JAR" "$RVX_PATCHES_URL"
+	dl_if_dne "$RV_CLI_JAR" "$rv_cli_url"
+	dl_if_dne "$RV_INTEGRATIONS_APK" "$rv_integrations_url"
+	dl_if_dne "$RV_PATCHES_JAR" "$rv_patches_url"
+	dl_if_dne "$RV_PATCHES_JSON" "$(grep 'json' <<<"$rv_patches_dl")"
 }
 
 get_cmpr() {
@@ -82,6 +84,8 @@ set_prebuilts() {
 	RVX_PATCHES_JAR=$(find "$TEMP_DIR" -maxdepth 1 -name "revanced-patches-*.jar" | tail -n1)
 	[ "$RVX_PATCHES_JAR" ] || abort "ReVanced Patches not found"
 	log "Patches: ${RVX_PATCHES_JAR#"$TEMP_DIR/"}"
+	RVX_PATCHES_JSON=$(find "$TEMP_DIR" -maxdepth 1 -name "patches-*.json" | tail -n1)
+	[ "$RVX_PATCHES_JSON" ] || abort "patches.json not found"
 }
 
 req() { wget -nv -O "$2" --header="$WGET_HEADER" "$1"; }
@@ -96,9 +100,7 @@ get_largest_ver() {
 	echo "$max"
 }
 get_patch_last_supported_ver() {
-	local vs
-	vs=$(unzip -p "$RVX_PATCHES_JAR" | strings -s , | sed -rn "s/.*${1},versions,(([0-9.]*,*)*),Lk.*/\1/p" | tr ',' '\n')
-	printf "%s\n" "$vs" | get_largest_ver
+	jq ".[] | select(.compatiblePackages[].name==\"${1}\") | .compatiblePackages[].versions" "$RV_PATCHES_JSON" | tr -d ' ,\t[]"' | sort -u | grep -v '^$' | get_largest_ver || :
 }
 semver_cmp() {
 	IFS=. read -r -a v1 <<<"${1//[^.0-9]/}"
@@ -138,6 +140,7 @@ dl_apkmirror() {
 		return
 	fi
 	local resp
+	version=${version// /-}
 	url="${url}/${url##*/}-${version//./-}-release/"
 	resp=$(req "$url" -) || return 1
 	url="https://www.apkmirror.com$(echo "$resp" | tr '\n' ' ' | sed -n "s/href=\"/@/g; s;.*${regexp}.*;\1;p")"
@@ -149,10 +152,20 @@ dl_apkmirror() {
 get_apkmirror_vers() {
 	local apkmirror_category=$1 allow_alpha_version=$2
 	local vers
-	# apkm_resp=$(req "https://www.apkmirror.com/uploads/?appcategory=${apkmirror_category}" -)
+	apkm_resp=$(req "https://www.apkmirror.com/uploads/?appcategory=${apkmirror_category}" -)
 	# apkm_name=$(echo "$apkm_resp" | sed -n 's;.*Latest \(.*\) Uploads.*;\1;p')
-	vers=$(req "https://www.apkmirror.com/uploads/?appcategory=${apkmirror_category}" - | sed -n 's;.*Version:</span><span class="infoSlide-value">\(.*\) </span>.*;\1;p')
-	if [ "$allow_alpha_version" = false ]; then grep -i -v -e "beta" -e "alpha" <<<"$vers"; else echo "$vers"; fi
+	vers=$(sed -n 's;.*Version:</span><span class="infoSlide-value">\(.*\) </span>.*;\1;p' <<<"$apkm_resp")
+	if [ "$allow_alpha_version" = false ]; then
+		local IFS=$'\n'
+		vers=$(grep -i -v "\(beta\|alpha\)" <<<"$vers")
+		local r_vers=()
+		for v in $vers; do
+			grep -iq "${v} \(beta\|alpha\)" <<<"$apkm_resp" || r_vers+=("$v")
+		done
+		echo "${r_vers[*]}"
+	else
+		echo "$vers"
+	fi
 }
 get_apkmirror_pkg_name() { req "$1" - | sed -n 's;.*id=\(.*\)" class="accent_color.*;\1;p'; }
 # --------------------------------------------------
@@ -198,7 +211,8 @@ build_rvx() {
 	local -n args=$1
 	local version patcher_args build_mode_arr pkg_name uptwod_resp
 	local mode_arg=${args[build_mode]} version_mode=${args[version]}
-	local app_name_l=${args[app_name],,}
+	local app_name=${args[app_name]}
+	local app_name_l=${app_name,,}
 	local dl_from=${args[dl_from]}
 	local arch=${args[arch]}
 
@@ -209,14 +223,14 @@ build_rvx() {
 	elif [ "$mode_arg" = both ]; then
 		build_mode_arr=(apk module)
 	else
-		echo "ERROR: undefined build mode for '${args[app_name]}': '${mode_arg}'"
+		echo "ERROR: undefined build mode for '${app_name}': '${mode_arg}'"
 		echo "    only 'both', 'apk' or 'module' are allowed"
 		return 1
 	fi
 
 	for build_mode in "${build_mode_arr[@]}"; do
 		patcher_args="${args[patcher_args]}"
-		echo -n "Building '${args[app_name]}' (${arch}) in "
+		echo -n "Building '${app_name}' (${arch}) in "
 		if [ "$build_mode" = module ]; then echo "'module' mode"; else echo "'APK' mode"; fi
 		if [ "${args[microg_patch]}" ]; then
 			if [ "$build_mode" = module ]; then
@@ -262,8 +276,9 @@ build_rvx() {
 			echo "ERROR: empty version"
 			return 1
 		fi
-		echo "Choosing version '${version}' (${args[app_name]})"
+		echo "Choosing version '${version}' (${app_name})"
 
+		version=${version// /-}
 		local stock_apk="${TEMP_DIR}/${pkg_name}-stock-${version}-${arch}.apk"
 		local apk_output="${BUILD_DIR}/${app_name_l}-revanced-extended-v${version}-${arch}.apk"
 		if [ "${args[microg_patch]}" ]; then
@@ -273,15 +288,15 @@ build_rvx() {
 		fi
 		if [ ! -f "$stock_apk" ]; then
 			if [ "$dl_from" = apkmirror ]; then
-				echo "Downloading '${args[app_name]}' from APKMirror"
+				echo "Downloading '${app_name}' from APKMirror"
 				if ! dl_apkmirror "${args[apkmirror_dlurl]}" "$version" "${args[apkmirror_regex]}" "$stock_apk"; then
-					echo "ERROR: Could not find any release of '${args[app_name]}' with the given version ('${version}') and regex"
+					echo "ERROR: Could not find any release of '${app_name}' with the given version ('${version}') and regex from APKMirror"
 					return 1
 				fi
 			elif [ "$dl_from" = uptodown ]; then
-				echo "Downloading '${args[app_name]}' from Uptodown"
+				echo "Downloading '${app_name}' from Uptodown"
 				if ! dl_uptodown "$uptwod_resp" "$version" "$stock_apk"; then
-					echo "ERROR: Could not download ${args[app_name]}"
+					echo "ERROR: Could not download ${app_name} from Uptodown"
 					return 1
 				fi
 			else
@@ -290,19 +305,19 @@ build_rvx() {
 		fi
 
 		if [ "${arch}" = "all" ]; then
-			! grep -q "${args[app_name]}:" build.md && log "${args[app_name]}: ${version}"
+			grep -q "${app_name}:" build.md || log "${app_name}: ${version}"
 		else
-			! grep -q "${args[app_name]} (${arch}):" build.md && log "${args[app_name]} (${arch}): ${version}"
+			grep -q "${app_name} (${arch}):" build.md || log "${app_name} (${arch}): ${version}"
 		fi
 
 		if [ ! -f "$patched_apk" ]; then patch_apk "$stock_apk" "$patched_apk" "$patcher_args"; fi
 		if [ ! -f "$patched_apk" ]; then
-			echo "BUILDING '${args[app_name]}' FAILED"
+			echo "BUILDING '${app_name}' FAILED"
 			return
 		fi
 		if [ "$build_mode" = apk ]; then
 			cp -f "$patched_apk" "$apk_output"
-			echo "Built ${args[app_name]} (${arch}) (non-root): '${apk_output}'"
+			echo "Built ${app_name} (${arch}) (non-root): '${apk_output}'"
 			continue
 		fi
 		if [ "$BUILD_MINDETACH_MODULE" = true ] && ! grep -q "$pkg_name" $PKGS_LIST; then echo "$pkg_name" >>$PKGS_LIST; fi
@@ -317,16 +332,16 @@ build_rvx() {
 		local upj
 		upj=$([ "${arch}" = "all" ] && echo "${app_name_l}-update.json" || echo "${app_name_l}-${arch}-update.json")
 		module_prop "${args[module_prop_name]}" \
-			"${args[app_name]} ReVanced Extended" \
+			"${app_name} ReVanced Extended" \
 			"$version" \
-			"${args[app_name]} ReVanced Extended Magisk module" \
+			"${app_name} ReVanced Extended Magisk Module" \
 			"https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/update/${upj}" \
 			"$base_template"
 
 		local module_output="${app_name_l}-revanced-extended-magisk-v${version}-${arch}.zip"
 		zip_module "$patched_apk" "$module_output" "$stock_apk" "$pkg_name" "$base_template"
 
-		echo "Built ${args[app_name]} (${arch}) (root): '${BUILD_DIR}/${module_output}'"
+		echo "Built ${app_name} (${arch}) (root): '${BUILD_DIR}/${module_output}'"
 	done
 }
 
