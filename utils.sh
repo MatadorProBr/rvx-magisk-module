@@ -62,7 +62,7 @@ get_prebuilts() {
 	dl_if_dne "$RVX_CLI_JAR" "$rvx_cli_url"
 	dl_if_dne "$RVX_INTEGRATIONS_APK" "$rvx_integrations_url"
 	dl_if_dne "$RVX_PATCHES_JAR" "$rvx_patches_url"
-	dl_if_dne "$RVX_PATCHES_JSON" "$(grep 'json' <<<"$rv_patches_dl")"
+	dl_if_dne "$RVX_PATCHES_JSON" "$(grep 'json' <<<"$rvx_patches_dl")"
 }
 
 get_cmpr() {

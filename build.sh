@@ -67,7 +67,7 @@ for table_name in $(toml_get_table_names); do
 	if [ "$LOGGING_F" = true ]; then
 		logf=logs/"${table_name,,}.log"
 		: >"$logf"
-		(build_rv 2>&1 app_args | tee "$logf") &
+		(build_rvx 2>&1 app_args | tee "$logf") &
 	else
 		build_rvx app_args &
 	fi
