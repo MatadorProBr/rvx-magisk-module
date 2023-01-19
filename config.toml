@@ -18,7 +18,6 @@ exclusive-patches = false                                                 # excl
 microg-patch = "microg-support"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube/"
 module-prop-name = "ytrvx-magisk"
-merge-integrations = true
 
 [YouTube-blue-beta]
 enabled = false
@@ -30,8 +29,6 @@ exclusive-patches = false
 microg-patch = "microg-support"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube/"
 module-prop-name = "ytrvx-magisk"
-merge-integrations = true
-rip-libs = true
 
 [YouTube-red-beta]
 enabled = false
@@ -43,8 +40,6 @@ exclusive-patches = false
 microg-patch = "microg-support"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube/"
 module-prop-name = "ytrvx-magisk"
-merge-integrations = true
-rip-libs = true
 
 [YouTube-revancify-beta]
 enabled = false
@@ -56,8 +51,6 @@ exclusive-patches = false
 microg-patch = "microg-support"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube/"
 module-prop-name = "ytrvx-magisk"
-merge-integrations = true
-rip-libs = true
 
 [Music-arm64]
 build-mode = "both"
@@ -68,7 +61,6 @@ version = "auto"
 microg-patch = "music-microg-support"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
 module-prop-name = "ytmusicrvx-magisk"
-merge-integrations = true
 arch = "arm64-v8a"
 
 [Music-arm64-red]
@@ -81,7 +73,6 @@ version = "auto"
 microg-patch = "music-microg-support"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
 module-prop-name = "ytmusicrvx-magisk"
-merge-integrations = true
 arch = "arm64-v8a"
 
 [Music-arm64-blue]
@@ -94,7 +85,6 @@ version = "auto"
 microg-patch = "music-microg-support"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
 module-prop-name = "ytmusicrvx-magisk"
-merge-integrations = true
 arch = "arm64-v8a"
 
 [Music-arm]
@@ -106,7 +96,6 @@ version = "auto"
 microg-patch = "music-microg-support"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
 module-prop-name = "ytmusicrvx-arm-magisk"
-merge-integrations = true
 arch = "arm-v7a"
 
 [Music-arm-red]
@@ -119,7 +108,6 @@ version = "auto"
 microg-patch = "music-microg-support"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
 module-prop-name = "ytmusicrvx-magisk"
-merge-integrations = true
 arch = "arm-v7a"
 
 [Music-arm-blue]
@@ -132,5 +120,4 @@ version = "auto"
 microg-patch = "music-microg-support"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
 module-prop-name = "ytmusicrvx-magisk"
-merge-integrations = true
 arch = "arm-v7a"
