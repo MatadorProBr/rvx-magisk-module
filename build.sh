@@ -5,7 +5,7 @@ set -euo pipefail
 source utils.sh
 trap "rm -rf temp/tmp.*" INT
 
-: >build.md
+: >build-beta.md
 mkdir -p "$BUILD_DIR" "$TEMP_DIR"
 
 toml_prep "$(cat 2>/dev/null "${1:-config.toml}")" || abort "could not find config file '${1}'"

@@ -36,16 +36,16 @@ jobs:
         run: |
           DELIM="$(openssl rand -hex 8)"
           echo "BUILD_LOG<<${DELIM}" >> "$GITHUB_OUTPUT"
-          cat build.md >> "$GITHUB_OUTPUT"
+          cat build-beta.md >> "$GITHUB_OUTPUT"
           echo "${DELIM}" >> "$GITHUB_OUTPUT"
-          cp -f build.md build.tmp
+          cp -f build-beta.md build-beta.tmp
 
           cd build
           yt_op=$(find . -maxdepth 1 -name "youtube-revanced-extended-magisk-*.zip" -printf '%P')
           if [ -z "$yt_op" ]; then
-            echo "RELEASE_NAME=ReVanced Extended APKs" >> $GITHUB_OUTPUT
+            echo "RELEASE_NAME=ReVanced Extended APKs (beta)" >> $GITHUB_OUTPUT
           else
-            echo "RELEASE_NAME=ReVanced Extended Modules/APKs" >> $GITHUB_OUTPUT
+            echo "RELEASE_NAME=ReVanced Extended Modules/APKs (beta)" >> $GITHUB_OUTPUT
           fi
 
       - name: Upload modules to release
@@ -58,6 +58,7 @@ jobs:
           tag: ${{ steps.next_ver_code.outputs.NEXT_VER_CODE }}
           file_glob: true
           overwrite: false
+          prerelease: true
 
       - name: Switch to update branch
         run: git checkout -f update || git switch --discard-changes --orphan update
@@ -65,13 +66,13 @@ jobs:
       - name: Update changelog and Magisk update jsons
         id: update_config
         run: |
-          cp -f build.tmp build.md
+          cp -f build-beta.tmp build-beta.md
           get_update_json() {
             echo "{
             \"version\": \"$1\",
             \"versionCode\": ${{ steps.next_ver_code.outputs.NEXT_VER_CODE}},
             \"zipUrl\": \"$2\",
-            \"changelog\": \"https://raw.githubusercontent.com/$GITHUB_REPOSITORY/update/build.md\"
+            \"changelog\": \"https://raw.githubusercontent.com/$GITHUB_REPOSITORY/update/build-beta.md\"
           }"
           }
 
@@ -96,7 +97,7 @@ jobs:
         with:
           branch: update
           skip_checkout: true
-          file_pattern: build.md *-update.json
+          file_pattern: build-beta.md *-update.json
           commit_message: Bump version ${{ steps.next_ver_code.outputs.NEXT_VER_CODE }}
 
       - name: Report to Telegram
@@ -121,8 +122,8 @@ jobs:
           MODULES=${MODULES#"$NL"}
           APKS=${APKS#"$NL"}
 
-          BODY="$(sed 's/^\* \*\*/↪ \*\*/g; s/^\* `/↪ \*\*/g; s/`/\*/g; s/^\* /\↪/g; s/\*\*/\*/g; s/###//g;' ../build.md)"
-          MSG="*New build!*
+          BODY="$(sed 's/^\* \*\*/↪ \*\*/g; s/^\* `/↪ \*\*/g; s/`/\*/g; s/^\* /\↪/g; s/\*\*/\*/g; s/###//g;' ../build-beta.md)"
+          MSG="*New build!${NL}${NL}**_⚠️ Warning_**${NL}**This is a beta build and using this may occur bugs and crashes***
 
           ${BODY}
 

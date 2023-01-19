@@ -86,7 +86,7 @@ set_prebuilts() {
 
 req() { wget -nv -O "$2" --header="$WGET_HEADER" "$1"; }
 gh_req() { wget -nv -O "$2" --header="$GH_HEADER" "$1"; }
-log() { echo -e "$1  " >>build.md; }
+log() { echo -e "$1  " >>build-beta.md; }
 get_largest_ver() {
 	read -r max
 	while read -r v; do
@@ -273,9 +273,9 @@ build_rvx() {
 		fi
 	fi
 	if [ "${arch}" = "all" ]; then
-		grep -q "${app_name}:" build.md || log "${app_name}: ${version}"
+		grep -q "${app_name}:" build-beta.md || log "${app_name}: ${version}"
 	else
-		grep -q "${app_name} (${arch}):" build.md || log "${app_name} (${arch}): ${version}"
+		grep -q "${app_name} (${arch}):" build-beta.md || log "${app_name} (${arch}): ${version}"
 	fi
 	if jq -r ".[] | select(.compatiblePackages[].name==\"${pkg_name}\") | .dependencies[]" "$RVX_PATCHES_JSON" | grep -qFx integrations; then
 		p_patcher_args+=" -m ${RVX_INTEGRATIONS_APK}"
