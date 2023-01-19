@@ -1,3 +1,6 @@
+# DIscontinued since [they added in-built support to ReVanced Extended](https://github.com/j-hc/revanced-magisk-module/commit/faaf5589e2b57ba6069f165fc052f7e458929ab3), here is a new repo that uses this new in-built support since they don't build ReVanced Extended yet.
+https://github.com/MatadorProBr/revanced-extended-magisk-module
+
 #### ⚠️ Do not download modules from 3rd party sources like random websites you found on Google. Only use this repository. I am not responsible for anything they may contain.
 
 # ReVanced Extended Magisk Module
